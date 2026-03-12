@@ -4,17 +4,16 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.asLiveData
+import androidx.lifecycle.map
 import com.example.offlineaudioplayer.data.ButtonMappingEntity
 import com.example.offlineaudioplayer.repo.AudioRepository
 
 class MainViewModel(private val repository: AudioRepository) : ViewModel() {
-    val mappings: LiveData<List<ButtonUiModel>> = repository.observeMappings().asLiveData().let { source ->
-        androidx.lifecycle.Transformations.map(source) { existing ->
-            val byId = existing.associateBy { it.buttonId }
-            (1..10).map { idx ->
-                val item = byId[idx]
-                ButtonUiModel(idx, item?.label ?: "Button $idx", item?.uri)
-            }
+    val mappings: LiveData<List<ButtonUiModel>> = repository.observeMappings().asLiveData().map { existing ->
+        val byId = existing.associateBy { it.buttonId }
+        (1..10).map { idx ->
+            val item = byId[idx]
+            ButtonUiModel(idx, item?.label ?: "Button $idx", item?.uri)
         }
     }
 

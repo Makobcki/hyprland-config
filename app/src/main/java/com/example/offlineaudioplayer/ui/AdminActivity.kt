@@ -6,6 +6,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.widget.EditText
 import android.widget.Toast
+import androidx.activity.result.ActivityResultLauncher
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
@@ -24,12 +25,12 @@ class AdminActivity : AppCompatActivity() {
         AdminViewModel.Factory(AudioRepository(AppDatabase.get(this).buttonMappingDao()))
     }
 
-    private val adapter = AdminMappingAdapter { position ->
+    private val adapter: AdminMappingAdapter = AdminMappingAdapter { position ->
         pickerPosition = position
         filePickerLauncher.launch(arrayOf("audio/mpeg", "audio/mp3", "audio/*"))
     }
 
-    private val filePickerLauncher = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
+    private val filePickerLauncher: ActivityResultLauncher<Array<String>> = registerForActivityResult(ActivityResultContracts.OpenDocument()) { uri: Uri? ->
         if (uri != null && pickerPosition >= 0) {
             takePersistablePermission(uri)
             adapter.updateUri(pickerPosition, uri.toString())
