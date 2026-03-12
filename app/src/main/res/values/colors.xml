@@ -1,0 +1,9 @@
+<resources>
+    <color name="bg_dark">#121212</color>
+    <color name="surface_dark">#1E1E1E</color>
+    <color name="shadow_dark">#0A0A0A</color>
+    <color name="highlight_dark">#2B2B2B</color>
+    <color name="terminal_green">#00E676</color>
+    <color name="text_primary">#E0E0E0</color>
+    <color name="accent_active">#76FF03</color>
+</resources>
